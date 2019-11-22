@@ -36,6 +36,7 @@ import hudson.util.ListBoxModel;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.Nullable;
@@ -113,7 +114,7 @@ public class AmazonEC2Cloud extends EC2Cloud {
     @Override
     public URL getS3EndpointUrl() {
         try {
-            return new URL("https://" + getRegion() + ".s3.amazonaws.com/");
+            return new URL("https://" + getRegion() + ".s3.amazonaws.com.cn/");
         } catch (MalformedURLException e) {
             throw new Error(e); // Impossible
         }
@@ -167,23 +168,37 @@ public class AmazonEC2Cloud extends EC2Cloud {
                 @QueryParameter String credentialsId)
 
                 throws IOException, ServletException {
-
             ListBoxModel model = new ListBoxModel();
+   
 
             try {
-                AWSCredentialsProvider credentialsProvider = createCredentialsProvider(useInstanceProfileForCredentials,
-                        credentialsId);
-                AmazonEC2 client = AmazonEC2Factory.getInstance().connect(credentialsProvider, determineEC2EndpointURL(altEC2Endpoint));
-                DescribeRegionsResult regions = client.describeRegions();
-                List<Region> regionList = regions.getRegions();
-                for (Region r : regionList) {
-                    String name = r.getRegionName();
+                List<String> regionList = new ArrayList<String>();
+                regionList.add("cn-north-1");
+                regionList.add("cn-northwest-1");
+                for (String name : regionList) {
                     model.add(name, name);
                 }
             } catch (SdkClientException ex) {
                 // Ignore, as this may happen before the credentials are specified
             }
             return model;
+
+//            ListBoxModel model = new ListBoxModel();
+//          
+//            try {
+//                AWSCredentialsProvider credentialsProvider = createCredentialsProvider(useInstanceProfileForCredentials,
+//                        credentialsId);
+//                AmazonEC2 client = AmazonEC2Factory.getInstance().connect(credentialsProvider, determineEC2EndpointURL(altEC2Endpoint));
+//                DescribeRegionsResult regions = client.describeRegions();
+//                List<Region> regionList = regions.getRegions();
+//                for (Region r : regionList) {
+//                    String name = r.getRegionName();
+//                    model.add(name, name);
+//                }
+//            } catch (SdkClientException ex) {
+//                // Ignore, as this may happen before the credentials are specified
+//            }
+//            return model;
         }
 
         // Will use the alternate EC2 endpoint if provided by the UI (via a @QueryParameter field), or use the default

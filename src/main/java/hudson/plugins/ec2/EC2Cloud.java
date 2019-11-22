@@ -125,11 +125,11 @@ public abstract class EC2Cloud extends Cloud {
 
     private static final Logger LOGGER = Logger.getLogger(EC2Cloud.class.getName());
 
-    public static final String DEFAULT_EC2_HOST = "us-east-1";
+    public static final String DEFAULT_EC2_HOST = "cn-northwest-1";
 
-    public static final String DEFAULT_EC2_ENDPOINT = "http://ec2.amazonaws.com";
+    public static final String DEFAULT_EC2_ENDPOINT = "http://ec2.cn-northwest-1.amazonaws.com.cn";
 
-    public static final String AWS_URL_HOST = "amazonaws.com";
+    public static final String AWS_URL_HOST = "amazonaws.com.cn";
 
     public static final String EC2_SLAVE_TYPE_SPOT = "spot";
 
