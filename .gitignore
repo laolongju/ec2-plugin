@@ -7,7 +7,9 @@ target
 .classpath
 .project
 .settings
-
+.dependabot
+.github
+.mvn
 /bin
 /work
 /src_generated
